@@ -62,6 +62,11 @@ pad.addEventListener("click", function (e) {
 })
 */
 
+const round = function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+  }
+
 let previous = "init";
 
 pad.addEventListener("click", function (e) {
@@ -101,7 +106,9 @@ pad.addEventListener("click", function (e) {
             switch (e.target.id) {
                 case "compute":
                     console.log("compute");
-                    displayValue = operate(operator, parseFloat(leftOperand), parseFloat(rightOperand));
+                    displayValue = round(
+                        operate(operator, parseFloat(leftOperand), parseFloat(rightOperand)),
+                        6);
                     previous = 'result';
                     break;
                 case "clear":
@@ -111,7 +118,7 @@ pad.addEventListener("click", function (e) {
                     break;
                 case "percent":
                     console.log("percent");
-                    displayValue = parseFloat(displayValue) / 100;
+                    displayValue = round(parseFloat(displayValue) / 100, 6);
                     previous = "init";
                     break;
                 case "comma":
@@ -133,7 +140,7 @@ pad.addEventListener("click", function (e) {
                     break;
                 case "erase":
                     break;
-                default:
+                default: // add, divide, substract, multiply
                         switch(previous) {
                             case "init":
                                 break;
